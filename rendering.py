@@ -38,6 +38,10 @@ class Canvas(QWidget):
         for circle in self.circle_container:
             draw_circle(circle, qp)
 
+    def clear(self):
+        self.circle_container.clear()
+        self.update()
+
     def mousePressEvent(self, event: QMouseEvent):
         self.add_circle(event)
         self.update()
