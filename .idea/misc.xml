@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="5bb8616b-fe01-4250-b523-137eb2a56d5d" />
+  <component name="Black">
+    <option name="sdkName" value="Python 3.11 (Laboratory work 4. Part 1 of 2 Circles on the form)" />
   </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (Laboratory work 4. Part 1 of 2 Circles on the form)" project-jdk-type="Python SDK" />
 </project>
