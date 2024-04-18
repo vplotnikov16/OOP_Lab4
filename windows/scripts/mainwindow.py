@@ -28,7 +28,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def keyReleaseEvent(self, event: QKeyEvent):
         super().keyReleaseEvent(event)
         if event.key() == Qt.Key_Control:
-            self.isCtrlPressed = False
             self.canvas.multiple_selection = False
 
     def checkBox_intersectedSeletion_stateChanged(self):
