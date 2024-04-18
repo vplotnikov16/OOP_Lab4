@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QPaintEvent, QPainter, QPen, QMouseEvent
+from PyQt5.QtGui import QPaintEvent, QPainter, QPen, QMouseEvent, QKeyEvent
 from PyQt5.QtCore import Qt, QPoint
 
 
@@ -27,6 +27,9 @@ def draw_circle(circle: CCircle, qp: QPainter):
 
 
 class Canvas(QWidget):
+    multiple_selection = False
+    select_all_intersected = False
+
     def __init__(self, parent: QWidget | None = None):
         super(Canvas, self).__init__(parent=parent)
         self.circle_container: list[CCircle] = []
@@ -59,18 +62,24 @@ class Canvas(QWidget):
 
     def mousePressEvent(self, event: QMouseEvent):
         intersections = self.intersections(event.pos())
+        new_selected_circles = []
         if intersections:
-            nearest_circle = intersections.pop()
-            while intersections:
-                current_circle = intersections.pop()
-                if current_circle.squared_dist_to(event.pos()) < nearest_circle.squared_dist_to(event.pos()):
-                    nearest_circle = current_circle
-            nearest_circle.selected = True
-            for circle in self.circle_container:
-                if circle is nearest_circle:
-                    continue
-                if circle.selected:
-                    circle.selected = False
+            if self.select_all_intersected:
+                for circle in intersections:
+                    circle.selected = True
+                    new_selected_circles.append(circle)
+            else:
+                nearest_circle = intersections.pop()
+                while intersections:
+                    current_circle = intersections.pop()
+                    if current_circle.squared_dist_to(event.pos()) < nearest_circle.squared_dist_to(event.pos()):
+                        nearest_circle = current_circle
+                nearest_circle.selected = True
+                new_selected_circles.append(nearest_circle)
+            if not self.multiple_selection:
+                for circle in self.circle_container:
+                    if circle not in new_selected_circles:
+                        circle.selected = False
         else:
             self.add_circle(event)
         self.update()
