@@ -15,15 +15,14 @@ class CCircle:
     def squared_dist_to(self, point: QPoint) -> int:
         return (point.x() - self.center.x()) ** 2 + (point.y() - self.center.y()) ** 2
 
-
-def draw_circle(circle: CCircle, qp: QPainter):
-    qp.setRenderHint(QPainter.Antialiasing)
-    if circle.selected:
-        pen = QPen(Qt.gray, 3, Qt.DashLine)
-    else:
-        pen = QPen(Qt.darkGray, 3, Qt.SolidLine)
-    qp.setPen(pen)
-    qp.drawEllipse(circle.center, circle.radius, circle.radius)
+    def draw(self, qp: QPainter):
+        qp.setRenderHint(QPainter.Antialiasing)
+        if self.selected:
+            pen = QPen(Qt.gray, 3, Qt.DashLine)
+        else:
+            pen = QPen(Qt.darkGray, 3, Qt.SolidLine)
+        qp.setPen(pen)
+        qp.drawEllipse(self.center, self.radius, self.radius)
 
 
 class Canvas(QWidget):
@@ -47,7 +46,7 @@ class Canvas(QWidget):
     def render_circles(self):
         qp = QPainter(self)
         for circle in self.circle_container:
-            draw_circle(circle, qp)
+            circle.draw(qp)
 
     def clear(self):
         self.circle_container.clear()
